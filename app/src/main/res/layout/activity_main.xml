@@ -6,13 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/singlevideoactivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Start Video into Activity"
+        app:layout_constraintBottom_toTopOf="@id/singlevideo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/singlevideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Single YouTube Video"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/singlevideoactivity"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/playlistvideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start PlayList YouTube Video"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/singlevideo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
