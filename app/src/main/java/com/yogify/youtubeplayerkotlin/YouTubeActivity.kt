@@ -1,5 +1,6 @@
 package com.yogify.youtubeplayerkotlin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +18,10 @@ const val YOUTUBE_PLAYLIST_ID = "PLRKyZvuMYSIO0jLgj8g6sADnD0IBaWaw2"
 
 class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
 
-    val TAG = "YotuTubeActivity"
+    private val TAG = "YotuTubeActivity"
+    private val DILOG_REQUEST_CODE = 1
+    val playerview by lazy { YouTubePlayerView(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,7 +37,6 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
 //        button1.text = "Button Added"
 //        layout.addView(button1)
 
-        val playerview = YouTubePlayerView(this)
         playerview.layoutParams = ConstraintLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
@@ -55,7 +58,7 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         player?.setPlaybackEventListener(playbackEventListener)
         if (!wasRestored) {
             player?.cueVideo(YOUTUBE_VIDEO_ID)
-        }else{
+        } else {
             player?.play()
         }
 
@@ -66,9 +69,8 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         initializationresult: YouTubeInitializationResult?
     ) {
 
-        val REQUEST_CODE = 0
         if (initializationresult!!.isUserRecoverableError) {
-            initializationresult!!.getErrorDialog(this, REQUEST_CODE).show()
+            initializationresult!!.getErrorDialog(this, DILOG_REQUEST_CODE).show()
         } else {
             val errormessage =
                 "This was an error initializing the YoutubePlayer $initializationresult"
@@ -128,5 +130,18 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
 
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // If YouTube is Disable , After Unable This on Result We create Again and call
+        Log.d(
+            TAG,
+            "OnActivity Result Called with request Code $requestCode and Result code $resultCode"
+        )
+        if (requestCode == DILOG_REQUEST_CODE) {
+            Log.d(TAG, intent?.toString()!!)
+            Log.d(TAG, intent?.extras.toString())
+            playerview.initialize(getString(R.string.API_KEY), this)
+        }
     }
 }

@@ -20,6 +20,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
+
+        // Auto Play and 0 Position Video
+//        YouTubeStandalonePlayer.createVideoIntent(
+//            this, getString(R.string.API_KEY),
+//            YOUTUBE_PLAYLIST_ID,0,true,false
+//        )
         val intent = when (p0?.id) {
 
             R.id.singlevideoactivity -> Intent(this, YouTubeActivity::class.java)
